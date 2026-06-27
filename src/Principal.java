@@ -1,15 +1,47 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-public class Principal {
-    public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+import dao.PersonaDAO;
+import modelo.Persona;
+import util.Evaluador;
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
-        }
+import java.util.Scanner;
+
+public class Principal {
+
+    public static void main(String[] args) {
+
+        Scanner sc=new Scanner(System.in);
+
+        Evaluador evaluador=new Evaluador();
+        PersonaDAO dao=new PersonaDAO();
+
+        evaluador.mostrarMensaje();
+
+        System.out.print("Nombre: ");
+        String nombre=sc.nextLine();
+
+        evaluador.mostrarMensaje(nombre);
+
+        System.out.print("Edad: ");
+        int edad=sc.nextInt();
+        sc.nextLine();
+
+        System.out.print("Genero(M/F): ");
+        String genero=sc.nextLine();
+
+        String mensaje =
+                evaluador.evaluarEdad(edad)
+                        +" - "
+                        +evaluador.evaluarGenero(genero)
+                        +" - "
+                        +evaluador.categoriaEdad(edad);
+
+        Persona persona =
+                new Persona(nombre,edad,genero,mensaje);
+
+        dao.guardar(persona);
+
+        System.out.println();
+        System.out.println("Datos registrados");
+
+        dao.listar();
     }
 }
